@@ -1,0 +1,41 @@
+USE [obs]
+GO
+/****** Object:  StoredProcedure [dbo].[RenewInsuranceApplication]    Script Date: 12/22/2014 03:54:13 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER procedure [dbo].[RenewInsuranceApplication] @CRN int, @QID int
+as
+begin
+
+declare @insurance_id int
+select @insurance_id = pk_i_id
+from dbo.tblInsurance_application
+where crn = @CRN and q_id = @QID
+
+declare @cover float
+
+if not exists (select i_id from dbo.tblRenewal)
+	begin
+	select @cover = cover
+	from dbo.tblInsurance
+	where pk_i_id = @insurance_id
+	end
+else
+	begin
+	select @cover = MIN(cover)
+	from dbo.tblRenewal
+	where i_id = @insurance_id
+	end
+	
+set @cover = 0.8 * @cover
+insert into dbo.tblRenewal
+values (@insurance_id, 'temp start date', 'temp end date' ,@cover, @cover)
+
+update dbo.tblClaim
+set claim_amount = @cover, actual_amount = @cover
+where i_id = @insurance_id
+
+return @@rowcount
+end

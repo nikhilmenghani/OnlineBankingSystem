@@ -1,0 +1,9 @@
+C:\Users\sreeraj\Desktop\Niks_Project\OnlineBanking\BAL\bin\Debug\BAL.dll
+C:\Users\sreeraj\Desktop\Niks_Project\OnlineBanking\BAL\bin\Debug\BAL.pdb
+C:\Users\sreeraj\Desktop\Niks_Project\OnlineBanking\BAL\obj\Debug\BAL.dll
+C:\Users\sreeraj\Desktop\Niks_Project\OnlineBanking\BAL\obj\Debug\BAL.pdb
+C:\Users\sreeraj\Desktop\Niks_Project\OnlineBanking\BAL\bin\Debug\DAL.dll
+C:\Users\sreeraj\Desktop\Niks_Project\OnlineBanking\BAL\bin\Debug\Helper.dll
+C:\Users\sreeraj\Desktop\Niks_Project\OnlineBanking\BAL\bin\Debug\DAL.pdb
+C:\Users\sreeraj\Desktop\Niks_Project\OnlineBanking\BAL\bin\Debug\Helper.pdb
+C:\Users\sreeraj\Desktop\Niks_Project\OnlineBanking\BAL\obj\Debug\BAL.csprojResolveAssemblyReference.cache

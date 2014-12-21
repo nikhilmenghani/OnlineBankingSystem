@@ -1,0 +1,21 @@
+USE [obs]
+GO
+/****** Object:  StoredProcedure [dbo].[Add_Quotation]    Script Date: 12/22/2014 01:17:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER procedure [dbo].[Add_Quotation](@CRN int, @v_type varchar(50), @brand varchar(50),@model varchar(50),@chassiss_no varchar(50),
+@engine_no int, @exshowroom_price float)
+  as
+  insert into dbo.tblQuotation 
+  values (@CRN,@v_type,@brand,@model,@chassiss_no, @engine_no, @exshowroom_price,((0.8)*@exshowroom_price),((0.125*(.0275)*@exshowroom_price)));
+  --Finding Quotation Id
+  declare @qid int
+  select @qid = pk_quotation_id 
+  from dbo.tblQuotation 
+  where crn = @CRN and v_type = @v_type and model = @model and chassiss_no = @chassiss_no and engine_no = @engine_no
+  --Insert into Insurance Application with status as pending.
+  insert into dbo.tblInsurance_application
+  values (@CRN, @qid, 'temp date', 'pending')
+  return @@rowcount

@@ -1,0 +1,35 @@
+USE [obs]
+GO
+/****** Object:  StoredProcedure [dbo].[ApproveInsuranceApplication]    Script Date: 12/22/2014 02:34:50 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER procedure [dbo].[ApproveInsuranceApplication] @CRN int, @QID int
+  as
+  begin
+  
+  declare @insurance_id int
+  select @insurance_id = pk_i_id
+  from dbo.tblInsurance_application
+  where crn = @CRN and q_id = @QID
+  
+  update dbo.tblInsurance_application 
+  set status = 'approved' 
+  where pk_i_id = @insurance_id
+  
+  declare @premium float
+  declare @cover float
+  declare @price float
+  
+  select @premium = premium, @cover = cover, @price = exshowroom_price
+  from dbo.tblQuotation
+  where pk_quotation_id = @QID
+  
+  insert into dbo.tblInsurance 
+  values (@insurance_id, 'temp start date', 'temp end date', @premium, @cover, @price, 'temp policy')
+  
+  insert into dbo.tblClaim
+  values (@insurance_id, @cover, @cover, 'temp claim date', 'temp claim status')
+  return @@rowcount
+  end
